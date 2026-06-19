@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>Admin Upload Panel</title>
+
     <style>
         body{
             font-family: Arial;
             text-align:center;
             background:#f5f5f5;
+            margin:0;
         }
 
         h1{
             background:#ff4081;
             color:white;
             padding:20px;
+            margin:0;
         }
 
         .box{
@@ -36,16 +39,29 @@
             border:none;
             cursor:pointer;
         }
+
+        button:hover{
+            background:#e91e63;
+        }
     </style>
 </head>
 <body>
+
+<script>
+const password = prompt("Enter Admin Password");
+
+if(password !== "Harshal2532"){
+    alert("Wrong Password");
+    window.location.href = "index.html";
+}
+</script>
 
 <h1>Admin Upload Panel</h1>
 
 <div class="box">
 
     <select id="category">
-        <option value="blouse">Blouse Back Design</option>
+        <option value="back">Blouse Back Design</option>
         <option value="front">Blouse Front Design</option>
         <option value="sleeves">Blouse Sleeves Design</option>
         <option value="tassels">Saree Tassels Design</option>
@@ -73,17 +89,18 @@ async function uploadImage(){
     formData.append("image", file);
     formData.append("category", category);
 
-    const res = await fetch("/upload", {
-        method: "POST",
-        body: formData
+    const res = await fetch("/upload",{
+        method:"POST",
+        body:formData
     });
 
     const data = await res.json();
 
     if(data.success){
-        alert("Image uploaded successfully!");
+        alert("Image Uploaded Successfully");
+        location.reload();
     }else{
-        alert("Upload failed");
+        alert("Upload Failed");
     }
 }
 

@@ -99,27 +99,26 @@
 </div>
 
 <script>
+async function loadImages() {
+    const res = await fetch("/images/blouse");
+    const files = await res.json();
 
-const gallery = document.getElementById("gallery");
+    const gallery = document.getElementById("gallery");
 
-for(let i = 1; i <= 100; i++){
+    gallery.innerHTML = "";
 
-    let img = new Image();
-    img.src = "uploads-blouse/" + i + ".jpg";
-
-    img.onload = function(){
-
-        let item = document.createElement("div");
-        item.className = "item";
-
-        item.innerHTML = `
-            <img src="${img.src}" onclick="openImage('${img.src}')">
-            <p>${i}</p>
+    files.forEach((file, index) => {
+        gallery.innerHTML += `
+            <div class="item">
+                <img src="/uploads-blouse/${file}"
+                     onclick="openImage('/uploads-blouse/${file}')">
+                <p>${index + 1}</p>
+            </div>
         `;
-
-        gallery.appendChild(item);
-    };
+    });
 }
+
+loadImages();
 
 function openImage(src){
     document.getElementById("popup").style.display = "flex";
@@ -129,8 +128,6 @@ function openImage(src){
 function closeImage(){
     document.getElementById("popup").style.display = "none";
 }
-
 </script>
-
 </body>
 </html>
